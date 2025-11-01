@@ -2,277 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Today's Task</title>
-  <style>
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, rgb(0, 164, 201), rgb(0, 141, 73));
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px;
-      animation: fadeInUp 1s ease-out;
-    }
-
-    h2 {
-      font-size: 30px;
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 3px #000;
-    }
-
-    textarea {
-      width: 100%;
-      max-width: 600px;
-      height: 150px;
-      padding: 15px;
-      border-radius: 10px;
-      border: none;
-      resize: none;
-      font-size: 16px;
-      margin-bottom: 20px;
-      outline: none;
-    }
-
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      background-color: #ffffff;
-      color: rgb(0, 161, 159);
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 30px;
-    }
-
-    button:hover {
-      background-color: #eee;
-      transform: scale(1.05);
-    }
-
-    .entry {
-      background: rgba(181, 17, 17, 0.7);
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    #task-section {
-      width: 100%;
-      max-width: 600px;
-      margin-top: 40px;
-    }
-
-    #task-input {
-      width: 70%;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-      outline: none;
-    }
-
-    #add-task-btn {
-      padding: 10px 16px;
-      border-radius: 10px;
-      margin-left: 10px;
-      background: #fff;
-      color: #00c9a7;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin-top: 20px;
-    }
-
-    li {
-      background: rgba(0, 145, 255, 0.1);
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    li:hover {
-      background: rgba(0, 145, 255, 0.2);
-    }
-
-    .completed {
-      text-decoration: line-through;
-      color: #ccc;
-    }
-
-    .complete-btn {
-      background: #fff;
-      color: rgb(0, 241, 217);
-      border: none;
-      border-radius: 6px;
-      padding: 5px 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .complete-btn:hover {
-      transform: scale(1.1);
-    }
-
-    #completion-status {
-      font-size: 18px;
-      margin-top: 20px;
-      font-weight: bold;
-    }
-
-    .message {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 12px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      max-width: 600px;
-    }
-
-    .half-message {
-      background: rgba(255, 255, 0, 0.2);
-      color: #fff;
-      border: 2px dashed yellow;
-    }
-
-    .full-message {
-      background: rgba(0, 255, 100, 0.3);
-      color: #fff;
-      border: 2px solid lime;
-    }
-    #naive {
-    display: flex;
-    gap: 20px;
-    margin-top: 30px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  #naive a {
-    display: inline-block;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #fff;
-    background: linear-gradient(135deg, #ffb347, #ffcc33);
-    border-radius: 30px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #naive a::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(255,255,255,0.2), rgba(255,255,255,0));
-    transform: skewX(-20deg);
-    transition: left 0.5s ease;
-  }
-
-  #naive a:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-  }
-
-  #naive a:hover::before {
-    left: 100%;
-  }#naive {
-    display: flex;
-    gap: 20px;
-    margin-top: 30px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  #naive a {
-    display: inline-block;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #fff;
-    background: linear-gradient(135deg, #ffb347, #ffcc33);
-    border-radius: 30px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #naive a::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(255,255,255,0.2), rgba(255,255,255,0));
-    transform: skewX(-20deg);
-    transition: left 0.5s ease;
-  }
-
-  #naive a:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(101, 244, 0, 0.6);
-  }
-
-  #naive a:hover::before {
-    left: 100%;
-  }
-  </style>
+  <title>Today's Task</title> 
+  <link rel="stylesheet" href="style.css">
+   <link rel="icon" href="logo.png" type="image/png">
 </head>
 <body>
-
-
-
   <h2>✅ Make A Day</h2>
   <div id="task-section">
-     <div id="completion-message"></div>
-     <div id="completion-status">Task Completion: 0%</div><br>
+    <div id="completion-message"></div>
+    <div id="completion-status">Task Completion: 0%</div><br>
     <input type="text" id="task-input" placeholder="Add a task...">
     <button id="add-task-btn" onclick="addTask()">Create Task</button>
     <ul id="task-list"></ul>
-   
-   
   </div>
 
   <script>
-    const entriesContainer = document.getElementById("entries");
-    const diaryText = document.getElementById("diary-text");
     const taskList = document.getElementById("task-list");
     const completionStatus = document.getElementById("completion-status");
     const completionMessage = document.getElementById("completion-message");
 
-    function saveEntry() {
-      const text = diaryText.value.trim();
-      if (text) {
-        const entry = document.createElement("div");
-        entry.className = "entry";
-        entry.textContent = text;
-        entriesContainer.prepend(entry);
-        diaryText.value = "";
-      }
+    // Load tasks from localStorage when page loads
+    window.onload = function() {
+      const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+      savedTasks.forEach(taskText => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span>${taskText}</span>
+          <button class="complete-btn" onclick="completeTask(this)">Complete</button>
+        `;
+        taskList.appendChild(li);
+      });
+      updateCompletion();
+    };
+
+    function saveTasks() {
+      const tasks = Array.from(taskList.querySelectorAll("li span")).map(span => span.textContent);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
     function addTask() {
@@ -286,42 +51,34 @@
         `;
         taskList.appendChild(li);
         taskInput.value = "";
+        saveTasks();
         updateCompletion();
       }
     }
 
     function completeTask(button) {
       const li = button.parentElement;
-      li.querySelector("span").classList.add("completed");
-      button.remove();
+      li.remove(); // Remove the completed task from the list
+      saveTasks(); // Update storage
       updateCompletion();
     }
 
     function updateCompletion() {
       const tasks = taskList.querySelectorAll("li");
-      const completed = taskList.querySelectorAll(".completed").length;
       const total = tasks.length;
-      let percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+      const percent = total === 0 ? 100 : 0; // All tasks done when list empty
 
       completionStatus.textContent = `Task Completion: ${percent}%`;
-
-      // Clear any existing message
       completionMessage.innerHTML = "";
 
-      if (percent >= 50 && percent < 100) {
-        const msg = document.createElement("div");
-        msg.className = "message half-message";
-        msg.textContent = "🌟Good Going!";
-        completionMessage.appendChild(msg);
-      } else if (percent === 100 && total > 0) {
+      if (total === 0) {
         const msg = document.createElement("div");
         msg.className = "message full-message";
-        msg.textContent = "🎉 Awesome! Your Did It!";
+        msg.textContent = "🎉 Awesome! You Did It!";
         completionMessage.appendChild(msg);
       }
     }
   </script>
-
 </body>
-</html>
 
+</html>
