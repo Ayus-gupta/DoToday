@@ -1,0 +1,194 @@
+/* ===========================
+   Font & Base Setup
+   =========================== */
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+body {
+  font-family: 'Patrick Hand', cursive;
+  background: linear-gradient(135deg, #003153, #00bcd4);
+  color: #f5faff;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* ===========================
+   Main Section
+   =========================== */
+#task-section {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 480px;
+  margin-top: 30px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  color: #e0f7fa;
+  text-align: center;
+  margin-top: 25px;
+  font-size: 2.2rem;
+  text-shadow: 2px 2px 5px rgba(0, 49, 83, 0.7);
+}
+
+/* ===========================
+   Inputs & Buttons
+   =========================== */
+#task-input {
+  width: 70%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1.1rem;
+  margin-right: 5px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #003153;
+}
+
+#add-task-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #00bcd4;
+  color: #003153;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#add-task-btn:hover {
+  background-color: #0097a7;
+  color: #e0f7fa;
+  transform: scale(1.05);
+}
+
+/* ===========================
+   Task List
+   =========================== */
+#task-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+#task-list li {
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #e0f7fa;
+  transition: background 0.3s ease;
+}
+
+#task-list li:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #b2ebf2;
+  opacity: 0.8;
+}
+
+/* ===========================
+   Buttons Inside List
+   =========================== */
+.complete-btn {
+  background-color: #00bcd4;
+  border: none;
+  border-radius: 8px;
+  color: #003153;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: background 0.3s ease;
+}
+
+.complete-btn:hover {
+  background-color: #0097a7;
+  color: #e0f7fa;
+}
+
+/* ===========================
+   Progress + Messages
+   =========================== */
+#completion-status {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #b2ebf2;
+}
+
+.message {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-top: 10px;
+}
+
+.half-message {
+  color: #00e5ff;
+}
+
+.full-message {
+  color: #a7ffeb;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px #002a4d;
+}
+
+/* ===========================
+   Responsive Design
+   =========================== */
+@media (max-width: 768px) {
+  #task-section {
+    width: 95%;
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  #task-input {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  #add-task-btn {
+    width: 100%;
+  }
+
+  #task-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .complete-btn {
+    margin-top: 6px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  #task-section {
+    padding: 12px;
+  }
+
+  #task-list li {
+    font-size: 1rem;
+  }
+}
