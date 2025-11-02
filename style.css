@@ -1,7 +1,7 @@
 /* ===========================
    Font & Base Setup
    =========================== */
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap'); */
 
 body {
   font-family: 'Patrick Hand', cursive;
@@ -82,46 +82,83 @@ h2 {
 #task-list li {
   background-color: rgba(255, 255, 255, 0.2);
   margin: 8px 0;
-  padding: 10px;
+  padding: 10px 12px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #e0f7fa;
   transition: background 0.3s ease;
+  flex-wrap: wrap;
 }
 
 #task-list li:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-.completed {
+#task-list li div:first-child {
+  flex: 1;
+}
+
+#task-list small {
+  color: #b2ebf2;
+  font-size: 0.85rem;
+}
+
+/* Completed Task */
+.completed span {
   text-decoration: line-through;
   color: #b2ebf2;
   opacity: 0.8;
 }
 
 /* ===========================
-   Buttons Inside List
+   Action Buttons
    =========================== */
-.complete-btn {
-  background-color: #00bcd4;
+li button {
   border: none;
   border-radius: 8px;
   color: #003153;
   font-weight: bold;
   cursor: pointer;
   padding: 6px 10px;
-  transition: background 0.3s ease;
+  margin-left: 5px;
+  transition: background 0.3s ease, transform 0.2s;
 }
 
-.complete-btn:hover {
-  background-color: #0097a7;
-  color: #e0f7fa;
+li button:hover {
+  transform: scale(1.1);
+}
+
+/* Specific button colors */
+li .btn-success { background-color: #00e676; }
+li .btn-success:hover { background-color: #00c853; color: #f5faff; }
+
+li .btn-warning { background-color: #ffeb3b; }
+li .btn-warning:hover { background-color: #fdd835; color: #003153; }
+
+li .btn-danger { background-color: #f44336; color: #fff; }
+li .btn-danger:hover { background-color: #d32f2f; }
+
+/* ===========================
+   Clear All Button
+   =========================== */
+#task-section .btn-danger {
+  width: 100%;
+  background-color: #ff1744;
+  color: #fff;
+  margin-top: 10px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+#task-section .btn-danger:hover {
+  background-color: #d50000;
+  transform: scale(1.03);
 }
 
 /* ===========================
-   Progress + Messages
+   Progress Bar + Messages
    =========================== */
 #completion-status {
   text-align: center;
@@ -130,14 +167,25 @@ h2 {
   color: #b2ebf2;
 }
 
+.progress {
+  height: 15px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+#progress-bar {
+  height: 100%;
+  background-color: #00e5ff;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
 .message {
   text-align: center;
   font-size: 1.3rem;
   margin-top: 10px;
-}
-
-.half-message {
-  color: #00e5ff;
 }
 
 .full-message {
@@ -173,8 +221,8 @@ h2 {
     align-items: flex-start;
   }
 
-  .complete-btn {
-    margin-top: 6px;
+  li button {
+    margin-top: 5px;
     width: 100%;
   }
 }
@@ -189,6 +237,10 @@ h2 {
   }
 
   #task-list li {
+    font-size: 1rem;
+  }
+
+  #completion-status {
     font-size: 1rem;
   }
 }
