@@ -2,83 +2,138 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Today's Task</title> 
-  <link rel="stylesheet" href="style.css">
-   <link rel="icon" href="logo.png" type="image/png">
+  <title>Today's Task</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   <link rel = "stylesheet" href="style.css">
 </head>
+
 <body>
-  <h2>✅ Make A Day</h2>
   <div id="task-section">
-    <div id="completion-message"></div>
-    <div id="completion-status">Task Completion: 0%</div><br>
-    <input type="text" id="task-input" placeholder="Add a task...">
-    <button id="add-task-btn" onclick="addTask()">Create Task</button>
+    <h2>✅ Make A Day</h2>
+    <div id="completion-message" class="message"></div>
+    <div id="completion-status">Task Completion: 0%</div>
+    <div class="progress">
+      <div id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 0%;"></div>
+    </div>
+
+    <div class="mt-3 d-flex flex-wrap">
+      <input type="text" id="task-input" placeholder="Add a task..." class="form-control me-2">
+      <button id="add-task-btn" class="btn btn-success" onclick="addTask()">Add</button>
+    </div>
+
     <ul id="task-list"></ul>
+    <button class="btn btn-danger btn-sm w-100 mt-2" onclick="clearAll()">Clear All</button>
   </div>
 
   <script>
-    const taskList = document.getElementById("task-list");
-    const completionStatus = document.getElementById("completion-status");
-    const completionMessage = document.getElementById("completion-message");
 
-    // Load tasks from localStorage when page loads
-    window.onload = function() {
-      const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
-      savedTasks.forEach(taskText => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <span>${taskText}</span>
-          <button class="complete-btn" onclick="completeTask(this)">Complete</button>
-        `;
-        taskList.appendChild(li);
-      });
+  const taskList = document.getElementById("task-list");
+  const completionStatus = document.getElementById("completion-status");
+  const completionMessage = document.getElementById("completion-message");
+  const progressBar = document.getElementById("progress-bar");
+
+  // Load tasks on page load
+  window.onload = function () {
+    const saved = JSON.parse(localStorage.getItem("tasks")) || [];
+    saved.forEach(task => renderTask(task.text, task.completed, task.time));
+    updateCompletion();
+  };
+
+  function saveTasks() {
+    const tasks = Array.from(taskList.children).map(li => ({
+      text: li.querySelector("span").textContent,
+      completed: li.classList.contains("completed"),
+      time: li.dataset.time
+    }));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
+  function renderTask(text, completed = false, time = new Date().toLocaleString()) {
+    const li = document.createElement("li");
+    li.dataset.time = time;
+    li.className = completed ? "completed" : "";
+    li.innerHTML = `
+      <div>
+        <span>${text}</span><br>
+        <small class="text-muted">${time}</small>
+      </div>
+      <div>
+        <button class="btn btn-success btn-sm" onclick="toggleComplete(this)">✔</button>
+        <button class="btn btn-warning btn-sm" onclick="editTask(this)">✎</button>
+      </div>
+    `;
+    taskList.appendChild(li);
+  }
+
+  function addTask() {
+    const input = document.getElementById("task-input");
+    const text = input.value.trim();
+    if (text) {
+      renderTask(text);
+      input.value = "";
+      saveTasks();
       updateCompletion();
-    };
-
-    function saveTasks() {
-      const tasks = Array.from(taskList.querySelectorAll("li span")).map(span => span.textContent);
-      localStorage.setItem("tasks", JSON.stringify(tasks));
     }
+  }
 
-    function addTask() {
-      const taskInput = document.getElementById("task-input");
-      const taskText = taskInput.value.trim();
-      if (taskText) {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <span>${taskText}</span>
-          <button class="complete-btn" onclick="completeTask(this)">Complete</button>
-        `;
-        taskList.appendChild(li);
-        taskInput.value = "";
-        saveTasks();
-        updateCompletion();
-      }
+  document.getElementById("task-input").addEventListener("keypress", e => {
+    if (e.key === "Enter") addTask();
+  });
+
+  function toggleComplete(button) {
+    const li = button.closest("li");
+    li.classList.toggle("completed");
+    saveTasks();
+    updateCompletion();
+  }
+
+  function editTask(button) {
+    const li = button.closest("li");
+    const span = li.querySelector("span");
+    const newText = prompt("Edit your task:", span.textContent);
+    if (newText !== null && newText.trim() !== "") {
+      span.textContent = newText.trim();
+      saveTasks();
     }
+  }
 
-    function completeTask(button) {
-      const li = button.parentElement;
-      li.remove(); // Remove the completed task from the list
-      saveTasks(); // Update storage
+  function deleteTask(button) {
+    button.closest("li").remove();
+    saveTasks();
+    updateCompletion();
+  }
+
+  function clearAll() {
+    if (confirm("Are you sure you want to clear all tasks?")) {
+      taskList.innerHTML = "";
+      saveTasks();
       updateCompletion();
     }
+  }
 
-    function updateCompletion() {
-      const tasks = taskList.querySelectorAll("li");
-      const total = tasks.length;
-      const percent = total === 0 ? 100 : 0; // All tasks done when list empty
+  function updateCompletion() {
+    const tasks = Array.from(taskList.children);
+    const total = tasks.length;
+    const done = tasks.filter(li => li.classList.contains("completed")).length;
+    const percent = total ? Math.round((done / total) * 100) : 100;
 
-      completionStatus.textContent = `Task Completion: ${percent}%`;
-      completionMessage.innerHTML = "";
+    completionStatus.textContent = `Task Completion: ${percent}%`;
+    progressBar.style.width = percent + "%";
+    progressBar.setAttribute("aria-valuenow", percent);
 
-      if (total === 0) {
-        const msg = document.createElement("div");
-        msg.className = "message full-message";
-        msg.textContent = "🎉 Awesome! You Did It!";
-        completionMessage.appendChild(msg);
-      }
+    // Message logic
+    completionMessage.innerHTML = "";
+
+    if (percent === 100 && total > 0) {
+      completionMessage.innerHTML = `<div class="message full-message">🎉 Awesome! You Did It!</div>`;
+    } 
+    else if (percent >= 50 && percent < 100) {
+      completionMessage.innerHTML = `<div class="message half-message">🌟 Halfway there! Keep going!</div>`;
     }
-  </script>
+  }
+</script>
+
 </body>
-
 </html>
